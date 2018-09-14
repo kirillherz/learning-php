@@ -95,13 +95,13 @@ array_push($array, array(
                 ->build()
                 ->run();
     }));
-    
+
 array_push($array, array(
-    'pattern' => '/^\/def\/del\/(\d+)\/(\d+)$/',
-    'func' => function($number, $number2) {
-        echo $number;
-        echo '<br>';
-        echo $number2;
+    'pattern' => '/^\/test\/$/',
+    'func' => function() {
+        (new TwigTemplateView(ServiceTwig::getService(), TemplateName::getService(), "test.html"))
+                ->build()
+                ->run();
     }));
 
 
