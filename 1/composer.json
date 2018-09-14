@@ -1,0 +1,13 @@
+{
+    "name": "vendor/1",
+    "description": "Описание проекта 1.",
+    "authors": [
+        {
+            "name": "Кирилл",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "twig/twig": "2.x-dev"
+    }
+}
