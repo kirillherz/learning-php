@@ -3,11 +3,19 @@
 class ServiceTwig {
 
     static function getService() {
-        require_once './vendor/autoload.php';
-        $loader = new Twig_Loader_Filesystem('templates');
-        $twig = new Twig_Environment($loader, array(
-            'cache' => 'compilation_cache',
-            'auto_reload' => true
+        return "./vendor/autoload.php";
+    }
+
+}
+
+class TemplateName {
+
+    static function getService() {
+        return "templates";
+    }
+
+}
+
 class TwigTemplateView {
 
     private $twig;
@@ -66,17 +74,26 @@ class TwigTemplateView {
 
 }
 
+class HelloView extends TwigTemplateView {
+
+    function getContext(): array {
+        $this->context["msg"] = $this->params["name"];
+        return $this->context;
     }
 
 }
 
 $uri = $_SERVER['REQUEST_URI'];
 $array = array();
+
+
 array_push($array, array(
-    'pattern' => '/^\/def\/save\/?$/',
-    'func' => function() {
-        $twig = ServiceTwig::getService();
-        echo $twig->render('index.html', array('msg' => "hello"));
+    'pattern' => "/^\/hello\/(\d+)$/",
+    'func' => function($name) {
+        (new HelloView(ServiceTwig::getService(), TemplateName::getService(), "index.html"))
+                ->setParams(array("name" => $name))
+                ->build()
+                ->run();
     }));
     
 array_push($array, array(
