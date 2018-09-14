@@ -8,8 +8,64 @@ class ServiceTwig {
         $twig = new Twig_Environment($loader, array(
             'cache' => 'compilation_cache',
             'auto_reload' => true
+class TwigTemplateView {
+
+    private $twig;
+    private $loader;
+    private $cache;
+    private $autoReload;
+    protected $context;
+    private $template;
+    protected $params;
+
+    public function __construct($autoloadPath, $TemplatesPath, $template) {
+        require_once $autoloadPath;
+        $this->context = array();
+        $this->template = $template;
+        $this->loader = new Twig_Loader_Filesystem($TemplatesPath);
+        $this->cache = 'compilation_cache';
+        $this->autoReload = true;
+        return $this;
+    }
+
+    public function setParams(array $params) {
+        $this->params = $params;
+        return $this;
+    }
+
+    public function setCache(string $value) {
+        $this->cache = $value;
+        return $this;
+    }
+
+    public function setAutoReload(bool $value) {
+        $this->autoReload = $value;
+        return $this;
+    }
+
+    public function setContext(array $context) {
+        $this->context = $context;
+        return $this;
+    }
+
+    public function build() {
+        $this->twig = new Twig_Environment($this->loader, array(
+            'cache' => $this->cache,
+            'auto_reload' => $this->autoReload
         ));
-        return $twig;
+        return $this;
+    }
+
+    public function getContext(): array {
+        return $this->context;
+    }
+
+    public function run() {
+        echo $this->twig->render($this->template, $this->getContext());
+    }
+
+}
+
     }
 
 }
