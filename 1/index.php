@@ -16,14 +16,14 @@ class TemplateName {
 
 }
 
-class TwigTemplateView {
+class View {
 
-    private $twig;
-    private $loader;
-    private $cache;
-    private $autoReload;
+    protected $twig;
+    protected $loader;
+    protected $cache;
+    protected $autoReload;
     protected $context;
-    private $template;
+    protected $template;
     protected $params;
 
     public function __construct($autoloadPath, $TemplatesPath, $template) {
@@ -51,11 +51,6 @@ class TwigTemplateView {
         return $this;
     }
 
-    public function setContext(array $context) {
-        $this->context = $context;
-        return $this;
-    }
-
     public function build() {
         $this->twig = new Twig_Environment($this->loader, array(
             'cache' => $this->cache,
@@ -64,29 +59,26 @@ class TwigTemplateView {
         return $this;
     }
 
-    public function getContext(): array {
-        return $this->context;
-    }
-
     public function get() {
-        echo "get";
+        
     }
 
     public function post() {
-        echo "post";
+        
     }
 
-    public function run() {
-        echo $this->twig->render($this->template, $this->getContext());
-    }
-
+//echo $this->twig->render($this->template, $this->getContext());
 }
 
-class HelloView extends TwigTemplateView {
+class HelloView extends View {
+    
+    function __construct($autoloadPath, $TemplatesPath, $template) {
+        parent::__construct($autoloadPath, $TemplatesPath, $template);
+    }
 
-    function getContext(): array {
-        $this->context["msg"] = $this->params["name"];
-        return $this->context;
+    function get() {
+        $this->context["msg"] = "hello";
+        echo $this->twig->render($this->template, $this->context);
     }
 
 }
@@ -96,25 +88,14 @@ $array = array();
 
 
 array_push($array, array(
-    'pattern' => "/^\/hello\/(\d+)$/",
-    'func' => function($name) {
+    'pattern' => "/^\/hello\/$/",
+    'func' => function() {
         $view = (new HelloView(ServiceTwig::getService(), TemplateName::getService(), "index.html"))
-                ->setParams(array("name" => $name))
                 ->build();
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $view->get();
         }
     }));
-
-array_push($array, array(
-    'pattern' => '/^\/test\/$/',
-    'func' => function() {
-        (new TwigTemplateView(ServiceTwig::getService(), TemplateName::getService(), "test.html"))
-                ->build()
-                ->run();
-    }));
-
-
 
 $flag = true;
 foreach ($array as $key => $value) {
