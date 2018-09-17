@@ -45,3 +45,26 @@ class TwigViewAutoTemplateAndAutoLoadPath extends TwigViewBuilder {
 
 }
 
+class Director {
+
+    private $twigBuilder;
+
+    public function setTwigBuilder(TwigViewBuilder $twigBuilder) {
+        $this->twigBuilder = $twigBuilder;
+    }
+
+    public function getTwigView(): TwigView {
+        return $this->twigBuilder->getTwigView();
+    }
+
+    public function constructTwigView() {
+
+        $this->twigBuilder->createTwigView();
+        $this->twigBuilder->buildAutoLoadPath();
+        $this->twigBuilder->buildTemplatePath();
+        $this->twigBuilder->buildAutoReload();
+        $this->twigBuilder->buildCache();
+        $this->twigBuilder->buildTwigEnvironment();
+    }
+
+}
