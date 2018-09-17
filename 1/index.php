@@ -130,7 +130,7 @@ class TwigViewBuilder {
 
 }
 
-class TwigViewAutoReloadTrueBuilder extends TwigViewBuilder {
+class TwigViewAutoTemplateAndAutoLoadPath extends TwigViewBuilder {
 
     public function buildAutoReload() {
         $this->twigView->setAutoReload(true);
@@ -145,13 +145,13 @@ class TwigViewAutoReloadTrueBuilder extends TwigViewBuilder {
 
         $this->twigView->setAutoloadPath("./vendor/autoload.php");
     }
-    
-    public function buildCache(){
+
+    public function buildCache() {
         $this->twigView->setCache('compilation_cache');
     }
 
     public function BuildTwigEnvironment() {
-        $this->twigView->setTwigEnvironment() ;
+        $this->twigView->setTwigEnvironment();
     }
 
 }
@@ -185,7 +185,7 @@ array_push($array, array(
     'class' => 'HelloView',
     'func' => function($className) {
         $director = new Director();
-        $director->setTwigBuilder(new TwigViewAutoReloadTrueBuilder($className));
+        $director->setTwigBuilder(new TwigViewAutoTemplateAndAutoLoadPath($className));
         $director->constructTwigView();
         return $director->getTwigView();
     }));
