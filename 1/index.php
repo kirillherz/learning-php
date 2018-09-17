@@ -1,6 +1,6 @@
 <?php
 
-class ServiceTwig {
+class AutoLoadPath {
 
     static function getService() {
         return "./vendor/autoload.php";
@@ -8,7 +8,7 @@ class ServiceTwig {
 
 }
 
-class TemplateName {
+class TemplatePath {
 
     static function getService() {
         return "templates";
@@ -16,7 +16,7 @@ class TemplateName {
 
 }
 
-class TwigView {
+class TwigView extends View {
 
     protected $twig;
     protected $loader;
@@ -26,13 +26,25 @@ class TwigView {
     protected $template;
     protected $params;
 
-    public function __construct($autoloadPath, $TemplatesPath, $template) {
-        require_once $autoloadPath;
+    public function __construct() {
         $this->context = array();
-        $this->template = $template;
-        $this->loader = new Twig_Loader_Filesystem($TemplatesPath);
         $this->cache = 'compilation_cache';
         $this->autoReload = true;
+        return $this;
+    }
+
+    public function setAutoloadPath($autoloadPath) {
+        require_once $autoloadPath;
+        return $this;
+    }
+
+    public function setTemplatesPath($TemplatesPath) {
+        $this->loader = new Twig_Loader_Filesystem($TemplatesPath);
+        return $this;
+    }
+
+    public function setTemplate($tempalte) {
+        $this->template = $tempalte;
         return $this;
     }
 
@@ -51,6 +63,11 @@ class TwigView {
         return $this;
     }
 
+    public function setContext($context) {
+        $this->context = $context;
+        return $this;
+    }
+
     public function build() {
         $this->twig = new Twig_Environment($this->loader, array(
             'cache' => $this->cache,
@@ -59,28 +76,39 @@ class TwigView {
         return $this;
     }
 
+    protected function getContext(): array {
+        return $this->context;
+    }
+
     public function get() {
-        
+        echo $this->twig->render($this->template, $this->getContext());
     }
 
-    public function post() {
-        
-    }
+//
+}
 
-//echo $this->twig->render($this->template, $this->getContext());
-}
-class View{
-    function get(){
-        
-    }
-    function post(){
-        
-    }
-}
-class HelloView extends View {
-    
+class View {
+
     function get() {
-        echo "hello";
+        
+    }
+
+    function post() {
+        
+    }
+
+}
+
+class HelloView extends TwigView {
+
+    function __construct() {
+        parent::__construct();
+        $this->setTemplate("index.html");
+    }
+
+    function getContext(): array {
+        $this->context["msg"] = "Hello world";
+        return $this->context;
     }
 
 }
@@ -91,18 +119,24 @@ $array = array();
 
 array_push($array, array(
     'pattern' => "/^\/hello\/$/",
-    'func' => function() {
-        $view = new HelloView();
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $view->get();
-        }
+    'class' => 'HelloView',
+    'func' => function(HelloView $view) {
+        $view->setAutoloadPath(AutoLoadPath::getService());
+        $view->setTemplatesPath(TemplatePath::getService());
+        $view->build();
     }));
 
 $flag = true;
 foreach ($array as $key => $value) {
     if (preg_match($value['pattern'], $uri, $matches)) {
         array_shift($matches);
-        $value['func'](...$matches);
+        $className = $value['class'];
+        $view = new $className();
+        $value['func']($view);
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $view->get();
+        }
+
         $flag = false;
         break;
     }
