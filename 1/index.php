@@ -16,7 +16,7 @@ class TemplateName {
 
 }
 
-class View {
+class TwigView {
 
     protected $twig;
     protected $loader;
@@ -69,16 +69,18 @@ class View {
 
 //echo $this->twig->render($this->template, $this->getContext());
 }
-
+class View{
+    function get(){
+        
+    }
+    function post(){
+        
+    }
+}
 class HelloView extends View {
     
-    function __construct($autoloadPath, $TemplatesPath, $template) {
-        parent::__construct($autoloadPath, $TemplatesPath, $template);
-    }
-
     function get() {
-        $this->context["msg"] = "hello";
-        echo $this->twig->render($this->template, $this->context);
+        echo "hello";
     }
 
 }
@@ -90,8 +92,7 @@ $array = array();
 array_push($array, array(
     'pattern' => "/^\/hello\/$/",
     'func' => function() {
-        $view = (new HelloView(ServiceTwig::getService(), TemplateName::getService(), "index.html"))
-                ->build();
+        $view = new HelloView();
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $view->get();
         }
