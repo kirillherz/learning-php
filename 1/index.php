@@ -183,10 +183,11 @@ class Director {
 array_push($array, array(
     'pattern' => "/^\/hello\/$/",
     'class' => 'HelloView',
-    'func' => function(HelloView $view) {
-        $view->setAutoloadPath(AutoLoadPath::getService());
-        $view->setTemplatesPath(TemplatePath::getService());
-        $view->build();
+    'func' => function($className) {
+        $director = new Director();
+        $director->setTwigBuilder(new TwigViewAutoReloadTrueBuilder($className));
+        $director->constructTwigView();
+        return $director->getTwigView();
     }));
 
 $flag = true;
@@ -194,8 +195,7 @@ foreach ($array as $key => $value) {
     if (preg_match($value['pattern'], $uri, $matches)) {
         array_shift($matches);
         $className = $value['class'];
-        $view = new $className();
-        $value['func']($view);
+        $view = $value['func']($className);
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $view->get();
         }
