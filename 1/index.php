@@ -25,55 +25,50 @@ class TwigView extends View {
     protected $context;
     protected $template;
     protected $params;
+    protected $autoloadPath;
 
     public function __construct() {
         $this->context = array();
         $this->cache = 'compilation_cache';
         $this->autoReload = true;
-        return $this;
     }
 
-    public function setAutoloadPath($autoloadPath) {
-        require_once $autoloadPath;
-        return $this;
+    public function setAutoloadPath(string $autoloadPath) {
+
+        $this->autoloadPath = $autoloadPath;
     }
 
     public function setTemplatesPath($TemplatesPath) {
+        require_once $this->autoloadPath;
         $this->loader = new Twig_Loader_Filesystem($TemplatesPath);
-        return $this;
     }
 
     public function setTemplate($tempalte) {
         $this->template = $tempalte;
-        return $this;
     }
 
     public function setParams(array $params) {
         $this->params = $params;
-        return $this;
     }
 
     public function setCache(string $value) {
         $this->cache = $value;
-        return $this;
     }
 
     public function setAutoReload(bool $value) {
         $this->autoReload = $value;
-        return $this;
     }
 
     public function setContext($context) {
         $this->context = $context;
-        return $this;
     }
 
-    public function build() {
+    public function setTwigEnvironment() {
+        require_once $this->autoloadPath;
         $this->twig = new Twig_Environment($this->loader, array(
             'cache' => $this->cache,
             'auto_reload' => $this->autoReload
         ));
-        return $this;
     }
 
     protected function getContext(): array {
