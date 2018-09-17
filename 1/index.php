@@ -68,6 +68,14 @@ class TwigTemplateView {
         return $this->context;
     }
 
+    public function get() {
+        echo "get";
+    }
+
+    public function post() {
+        echo "post";
+    }
+
     public function run() {
         echo $this->twig->render($this->template, $this->getContext());
     }
@@ -90,10 +98,12 @@ $array = array();
 array_push($array, array(
     'pattern' => "/^\/hello\/(\d+)$/",
     'func' => function($name) {
-        (new HelloView(ServiceTwig::getService(), TemplateName::getService(), "index.html"))
+        $view = (new HelloView(ServiceTwig::getService(), TemplateName::getService(), "index.html"))
                 ->setParams(array("name" => $name))
-                ->build()
-                ->run();
+                ->build();
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $view->get();
+        }
     }));
 
 array_push($array, array(
