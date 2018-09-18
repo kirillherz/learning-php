@@ -74,5 +74,9 @@ class TwigView extends View {
     public function get() {
         echo $this->twig->render($this->template, $this->getContext());
     }
+    
+    public function post() {
+        echo $this->twig->render($this->template, $this->getContext());
+    }
 
 }

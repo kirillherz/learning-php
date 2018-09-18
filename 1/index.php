@@ -26,6 +26,8 @@ foreach ($array as $key => $value) {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $view->get();
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $view->get();
 
         $flag = false;
         break;
