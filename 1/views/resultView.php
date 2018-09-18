@@ -75,7 +75,6 @@ class ResultView extends TwigView {
     }
 
     function getContext(): array {
-        $this->context["result"] = $_POST["1"] + $_POST["2"];
         $summaForm = new SummaForm();
         $summaForm->setA($_POST["1"]);
         $summaForm->setB($_POST["2"]);
