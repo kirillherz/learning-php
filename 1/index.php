@@ -5,6 +5,7 @@ $array = array();
 
 include_once './views/HelloView.php';
 include_once './views/SummaView.php';
+include_once './views/resultView.php';
 include_once "./builders/TwigViewBuilder.php";
 
 array_push($array, array(
@@ -27,6 +28,16 @@ array_push($array, array(
         return $director->getTwigView();
     }));
     
+array_push($array, array(
+    'pattern' => "/^\/result\/?$/",
+    'class' => 'ResultView',
+    'func' => function(string $className) {
+        $director = new Director();
+        $director->setTwigBuilder(new TwigViewAutoTemplateAndAutoLoadPath($className));
+        $director->constructTwigView();
+        return $director->getTwigView();
+    }));
+
 $flag = true;
 foreach ($array as $key => $value) {
     if (preg_match($value['pattern'], $uri, $matches)) {
@@ -39,6 +50,7 @@ foreach ($array as $key => $value) {
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $view->get();
+        }
 
         $flag = false;
         break;
