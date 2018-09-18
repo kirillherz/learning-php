@@ -4,6 +4,7 @@ $uri = $_SERVER['REQUEST_URI'];
 $array = array();
 
 include_once './views/HelloView.php';
+include_once './views/SummaView.php';
 include_once "./builders/TwigViewBuilder.php";
 
 array_push($array, array(
@@ -16,6 +17,16 @@ array_push($array, array(
         return $director->getTwigView();
     }));
 
+array_push($array, array(
+    'pattern' => "/^\/summa\/?$/",
+    'class' => 'SummaView',
+    'func' => function(string $className) {
+        $director = new Director();
+        $director->setTwigBuilder(new TwigViewAutoTemplateAndAutoLoadPath($className));
+        $director->constructTwigView();
+        return $director->getTwigView();
+    }));
+    
 $flag = true;
 foreach ($array as $key => $value) {
     if (preg_match($value['pattern'], $uri, $matches)) {
