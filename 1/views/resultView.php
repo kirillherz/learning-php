@@ -27,6 +27,46 @@ class Validator {
 
 }
 
+class SummaForm {
+
+    private $a;
+    private $b;
+
+    public function setA(string $a) {
+        $input_text = strip_tags($a);
+        $input_text = htmlspecialchars($input_text);
+        $this->a = $input_text;
+    }
+
+    public function setB(string $a) {
+        $input_text = strip_tags($a);
+        $input_text = htmlspecialchars($input_text);
+        $this->b = $input_text;
+    }
+
+    public function getA(): float {
+        return (float) $this->a;
+    }
+
+    public function getB(): float {
+        return (float) $this->b;
+    }
+
+    public function isValid(): bool {
+        $isValidA = (new Validator($this->a))
+                ->isEmpty()
+                ->isNumeric()
+                ->isValid();
+        $isValidB = (new Validator($this->a))
+                ->isEmpty()
+                ->isNumeric()
+                ->isValid();
+        $is_valid = $isValidA & $isValidB;
+        return $is_valid;
+    }
+
+}
+
 class ResultView extends TwigView {
 
     function __construct() {
