@@ -3,8 +3,8 @@
 $uri = $_SERVER['REQUEST_URI'];
 $array = array();
 
-include_once './views/HelloView.php';
-include_once './views/SummaView.php';
+include_once './views/helloView.php';
+include_once './views/summaView.php';
 include_once './views/resultView.php';
 include_once "./builders/TwigViewBuilder.php";
 
