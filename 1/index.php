@@ -27,16 +27,6 @@ array_push($array, array(
         $director->constructTwigView();
         return $director->getTwigView();
     }));
-    
-array_push($array, array(
-    'pattern' => "/^\/result\/?$/",
-    'class' => 'ResultView',
-    'func' => function(string $className) {
-        $director = new Director();
-        $director->setTwigBuilder(new TwigViewAutoTemplateAndAutoLoadPath($className));
-        $director->constructTwigView();
-        return $director->getTwigView();
-    }));
 
 $flag = true;
 foreach ($array as $key => $value) {
