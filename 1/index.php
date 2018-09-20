@@ -49,7 +49,7 @@ foreach ($array as $key => $value) {
             $view->get();
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $view->get();
+            $view->post();
         }
 
         $flag = false;
