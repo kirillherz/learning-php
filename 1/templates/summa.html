@@ -8,10 +8,21 @@
     </head>
     <body>
         <div> 
-            <form action="/result/" method="post">
+            <form action="/summa/" method="post">
+
                 <p>Число 1: <input type="text" name="1"/></p>
+                {% for error in errorsA %}
+                {{ error }}
+                <br>
+                {% endfor %}
                 <p>Число 2: <input type="text" name="2"/></p>
+                {% for error in errorsB %}
+                {{ error }}
+                <br>
+                {% endfor %}
                 <p><input type="submit" name="посчитать"/></p>
+                <br>
+                {{result}}
             </form>
         </div>
     </body>
