@@ -44,11 +44,11 @@ class SummaForm {
 
     private $a;
     private $b;
-    private $errorsFieldA;
-    private $errorsFieldB;
+    private $errors;
 
     public function __construct() {
-        $this->errorsFieldA = array();
+
+        $this->errors = array();
     }
 
     public function setA(string $a) {
@@ -77,23 +77,19 @@ class SummaForm {
                 ->isEmpty("Поле пустое")
                 ->isNumeric("Не число")
                 ->isValid();
-        $this->errorsFieldA = $validator->getErrorsMessages();
+        $this->errors["a"] = $validator->getErrorsMessages();
         $validator = new Validator($this->b);
         $isValidB = $validator
                 ->isEmpty("Поле пустое")
                 ->isNumeric("Не число")
                 ->isValid();
-        $this->errorsFieldB = $validator->getErrorsMessages();
+        $this->errors["b"] = $validator->getErrorsMessages();
         $is_valid = $isValidA & $isValidB;
         return $is_valid;
     }
 
-    public function getErrorsFieldA(): array {
-        return $this->errorsFieldA;
-    }
-
-    public function getErrorsFieldB(): array {
-        return $this->errorsFieldA;
+    public function getErrors() {
+        return $this->errors;
     }
 
 }
@@ -113,7 +109,7 @@ class ResultView extends TwigView {
             $this->context["result"] = $summaForm->getA() + $summaForm->getB();
         } else {
 
-            $this->context["result"] = $summaForm->getErrorsFieldA()[0];
+            $this->context["result"] = $summaForm->getErrors()["a"][0];
         }
         echo $this->twig->render($this->template, $this->context);
     }
