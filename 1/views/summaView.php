@@ -108,8 +108,7 @@ class SummaView extends ContextView {
         if ($summaForm->isValid()) {
             $this->context["result"] = $summaForm->getA() + $summaForm->getB();
         } else {
-            $this->context["errorsA"] = $summaForm->getErrors()["a"];
-            $this->context["errorsB"] = $summaForm->getErrors()["b"];
+            $this->context["errors"] = $summaForm->getErrors();
         }
         echo $this->twig->render($this->template, $this->context);
     }
