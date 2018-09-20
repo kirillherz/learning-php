@@ -54,6 +54,7 @@ class SummaView extends ContextView {
         $summaForm->setA($_POST["1"]);
         $summaForm->setB($_POST["2"]);
         if ($summaForm->isValid()) {
+            $this->setTemplate("result.html");
             $this->context["result"] = $summaForm->getA() + $summaForm->getB();
         } else {
             $this->context["a"] = $_POST["1"];
