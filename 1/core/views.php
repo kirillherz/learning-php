@@ -67,6 +67,10 @@ class TwigView extends View {
         ));
     }
 
+}
+
+trait ContextTrait {
+
     protected function getContext(): array {
         return $this->context;
     }
@@ -74,9 +78,14 @@ class TwigView extends View {
     public function get() {
         echo $this->twig->render($this->template, $this->getContext());
     }
-    
+
     public function post() {
         echo $this->twig->render($this->template, $this->getContext());
     }
 
+}
+
+class ContextView extends TwigView {
+
+    use ContextTrait;
 }
