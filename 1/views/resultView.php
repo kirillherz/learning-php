@@ -5,24 +5,37 @@ require_once './core/views.php';
 class Validator {
 
     private $value;
-    private $isValid = true;
+    private $isValid;
+    private $errors;
 
     public function __construct($value) {
+        $this->errors = array();
+        $this->isValid = true;
         $this->value = $value;
     }
 
-    public function isEmpty() {
+    public function isEmpty(string $ErrorMessage) {
         $this->isValid = $this->isValid & $this->value != "";
+        if (!$this->isValid) {
+            array_push($this->errors, $ErrorMessage);
+        }
         return $this;
     }
 
-    public function isNumeric() {
+    public function isNumeric(string $ErrorMessage) {
         $this->isValid = $this->isValid & is_numeric($this->value);
+        if (!$this->isValid) {
+            array_push($this->errors, $ErrorMessage);
+        }
         return $this;
     }
 
     public function isValid() {
         return $this->isValid;
+    }
+
+    public function getErrorsMessages() {
+        return $this->errors;
     }
 
 }
@@ -31,6 +44,12 @@ class SummaForm {
 
     private $a;
     private $b;
+    private $errorsFieldA;
+    private $errorsFieldB;
+
+    public function __construct() {
+        $this->errorsFieldA = array();
+    }
 
     public function setA(string $a) {
         $input_text = strip_tags($a);
@@ -53,16 +72,28 @@ class SummaForm {
     }
 
     public function isValid(): bool {
-        $isValidA = (new Validator($this->a))
-                ->isEmpty()
-                ->isNumeric()
+        $validator = new Validator($this->a);
+        $isValidA = $validator
+                ->isEmpty("Поле пустое")
+                ->isNumeric("Не число")
                 ->isValid();
-        $isValidB = (new Validator($this->a))
-                ->isEmpty()
-                ->isNumeric()
+        $this->errorsFieldA = $validator->getErrorsMessages();
+        $validator = new Validator($this->b);
+        $isValidB = $validator
+                ->isEmpty("Поле пустое")
+                ->isNumeric("Не число")
                 ->isValid();
+        $this->errorsFieldB = $validator->getErrorsMessages();
         $is_valid = $isValidA & $isValidB;
         return $is_valid;
+    }
+
+    public function getErrorsFieldA(): array {
+        return $this->errorsFieldA;
+    }
+
+    public function getErrorsFieldB(): array {
+        return $this->errorsFieldA;
     }
 
 }
@@ -82,7 +113,7 @@ class ResultView extends TwigView {
             $this->context["result"] = $summaForm->getA() + $summaForm->getB();
         } else {
 
-            $this->context["result"] = "ошибка";
+            $this->context["result"] = $summaForm->getErrorsFieldA()[0];
         }
         echo $this->twig->render($this->template, $this->context);
     }
