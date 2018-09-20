@@ -10,12 +10,12 @@
         <div> 
             <form action="/summa/" method="post">
 
-                <p>Число 1: <input type="text" name="1"/></p>
+                <p>Число 1: <input type="text" name="1" value='{{a}}'/></p>
                 {% for error in errors.a %}
                 {{ error }}
                 <br>
                 {% endfor %}
-                <p>Число 2: <input type="text" name="2"/></p>
+                <p>Число 2: <input type="text" name="2" value='{{b}}'/></p>
                 {% for error in errors.b %}
                 {{ error }}
                 <br>
