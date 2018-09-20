@@ -2,7 +2,7 @@
 
 require_once './core/views.php';
 
-class HelloView extends TwigView {
+class HelloView extends ContextView {
 
     function __construct() {
         parent::__construct();

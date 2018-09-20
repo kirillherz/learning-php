@@ -2,7 +2,7 @@
 
 require_once './core/views.php';
 
-class SummaView extends TwigView {
+class SummaView extends ContextView {
 
     function __construct() {
         parent::__construct();
