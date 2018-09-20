@@ -74,7 +74,7 @@ class ResultView extends TwigView {
         $this->setTemplate("result.html");
     }
 
-    function getContext(): array {
+    public function post() {
         $summaForm = new SummaForm();
         $summaForm->setA($_POST["1"]);
         $summaForm->setB($_POST["2"]);
@@ -84,7 +84,7 @@ class ResultView extends TwigView {
 
             $this->context["result"] = "ошибка";
         }
-        return $this->context;
+        echo $this->twig->render($this->template, $this->context);
     }
 
 }
