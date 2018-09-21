@@ -8,9 +8,8 @@
     <body>
         <div> 
             {% for row in result %}
-             {% for row2 in row %}
-            {{row2 }}
-            {% endfor %}
+            title: {{row.title}}
+            value: {{row.value}}
             <br>
             {% endfor %}
         </div>
