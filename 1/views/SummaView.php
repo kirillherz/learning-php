@@ -44,6 +44,10 @@ require_once './models/summa.php';
 
 
 require_once './queries/summaViewQueries/save.php';
+
+use summaView\QuerySave;
+use summaView\Result;
+
 class SummaView extends ContextView {
 
     function __construct() {
@@ -58,9 +62,9 @@ class SummaView extends ContextView {
         if ($summaForm->isValid()) {
             $this->setTemplate("result.html");
             $this->context["result"] = $summaForm->getA() + $summaForm->getB();
-            $result = new summaView\Result();
-            $result->result = (string)$this->context["result"];
-            (new summaView\QuerySave())->save($result);
+            $result = new Result();
+            $result->result = (string) $this->context["result"];
+            (new QuerySave())->save($result);
         } else {
             $this->context["a"] = $_POST["1"];
             $this->context["b"] = $_POST["2"];
