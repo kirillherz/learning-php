@@ -2,11 +2,13 @@
 
 require_once './core/views.php';
 
-class TestDbView extends ContextView {
+class MyTable {
 
-    function __construct() {
-        parent::__construct();
-        $this->setTemplate("test.html");
+    public $title;
+    public $value;
+
+}
+
     }
 
     public function get() {
