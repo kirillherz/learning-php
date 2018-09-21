@@ -21,19 +21,42 @@ class __TwigTemplate_1493d2bd548da1a6fbf2d0ec59de62d1fcbab771c5da93c24cea8a33108
     {
         // line 1
         echo "<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>test</title>
         <meta charset=\"UTF-8\">
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     </head>
     <body>
-        <div>test</div>
+        <div> 
+            ";
+        // line 10
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["result"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["row"]) {
+            // line 11
+            echo "             ";
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable($context["row"]);
+            foreach ($context['_seq'] as $context["_key"] => $context["row2"]) {
+                // line 12
+                echo "            ";
+                echo twig_escape_filter($this->env, $context["row2"], "html", null, true);
+                echo "
+            ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['row2'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 14
+            echo "            <br>
+            ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['row'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 16
+        echo "        </div>
     </body>
 </html>
 ";
@@ -44,9 +67,14 @@ and open the template in the editor.
         return "test.html";
     }
 
+    public function isTraitable()
+    {
+        return false;
+    }
+
     public function getDebugInfo()
     {
-        return array (  23 => 1,);
+        return array (  59 => 16,  52 => 14,  43 => 12,  38 => 11,  34 => 10,  23 => 1,);
     }
 
     public function getSourceContext()

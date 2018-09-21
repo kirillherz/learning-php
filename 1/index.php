@@ -6,6 +6,7 @@ $array = array();
 include_once './views/helloView.php';
 include_once './views/summaView.php';
 include_once './views/resultView.php';
+include_once './views/testDB.php';
 include_once "./builders/TwigViewBuilder.php";
 
 array_push($array, array(
@@ -27,10 +28,19 @@ array_push($array, array(
         $director->constructTwigView();
         return $director->getTwigView();
     }));
-    
+
 array_push($array, array(
     'pattern' => "/^\/result\/?$/",
     'class' => 'ResultView',
+    'func' => function(string $className) {
+        $director = new Director();
+        $director->setTwigBuilder(new TwigViewAutoTemplateAndAutoLoadPath($className));
+        $director->constructTwigView();
+        return $director->getTwigView();
+    }));
+array_push($array, array(
+    'pattern' => "/^\/test\/?$/",
+    'class' => 'TestDbView',
     'func' => function(string $className) {
         $director = new Director();
         $director->setTwigBuilder(new TwigViewAutoTemplateAndAutoLoadPath($className));

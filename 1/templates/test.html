@@ -6,6 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>test</div>
+        <div> 
+            {% for row in result %}
+             {% for row2 in row %}
+            {{row2 }}
+            {% endfor %}
+            <br>
+            {% endfor %}
+        </div>
     </body>
 </html>
