@@ -9,6 +9,12 @@ class MyTable {
 
 }
 
+class QuerySave {
+
+    private $connection;
+
+    public function __construct() {
+        $this->connection = new PDO("sqlite:database.db");
     }
 
     public function get() {
