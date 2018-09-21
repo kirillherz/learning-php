@@ -42,6 +42,33 @@ class Validator {
 
 require_once './models/summa.php';
 
+class Result {
+
+    public $result;
+
+}
+
+class QuerySave2 {
+
+    private $connection;
+
+    public function __construct() {
+        $this->connection = new PDO("sqlite:database.db");
+    }
+
+    public function save(Result $model) {
+        $this->connection->exec("
+            CREATE TABLE IF NOT EXISTS results (
+                    id INTEGER PRIMARY KEY, 
+                    result TEXT)");
+        $insert = "INSERT INTO results (result) VALUES (:result)";
+        $stmt = $this->connection->prepare($insert);
+        $stmt->bindParam(":result", $model->result);
+        $stmt->execute();
+    }
+
+}
+
 class SummaView extends ContextView {
 
     function __construct() {
@@ -56,6 +83,9 @@ class SummaView extends ContextView {
         if ($summaForm->isValid()) {
             $this->setTemplate("result.html");
             $this->context["result"] = $summaForm->getA() + $summaForm->getB();
+            $result = new Result();
+            $result->result = (string)$this->context["result"];
+            (new QuerySave2())->save($result);
         } else {
             $this->context["a"] = $_POST["1"];
             $this->context["b"] = $_POST["2"];

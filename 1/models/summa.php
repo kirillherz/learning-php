@@ -2,8 +2,8 @@
 
 class Summa {
 
-    private $a;
-    private $b;
+    public $a;
+    public $b;
     private $errors;
 
     public function __construct() {
