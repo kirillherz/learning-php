@@ -17,18 +17,21 @@ class QuerySave {
         $this->connection = new PDO("sqlite:database.db");
     }
 
-    public function get() {
-        $connection = new PDO("sqlite:database.db");
-        $connection->exec(
+    public function save(MyTable $model) {
+        $this->connection->exec(
                 "CREATE TABLE IF NOT EXISTS myTable (
                     id INTEGER PRIMARY KEY, 
                     title TEXT, 
                     value TEXT)");
         $insert = "INSERT INTO myTable (title, value) VALUES (:title, :value)";
-        $stmt = $connection->prepare($insert);
-        $stmt->bindValue(":title", "Asdasda");
-        $stmt->bindValue(":value", "dasdasdas");
+        $stmt = $this->connection->prepare($insert);
+        $stmt->bindParam(":title", $model->title);
+        $stmt->bindParam(":value", $model->value);
         $stmt->execute();
+    }
+
+}
+
 class QueryGetAll {
 
     private $connection;
@@ -45,6 +48,20 @@ class QueryGetAll {
 
 }
 
+class TestDbView extends ContextView {
+
+    function __construct() {
+        parent::__construct();
+        $this->setTemplate("test.html");
+    }
+
+    public function get() {
+        (new QuerySave())->save(new class extends MyTable {
+
+            public $title = "Kirill2";
+            public $value = "Herz2";
+        });
+        $result = (new QueryGetAll())->getAll();
         $this->context["result"] = $result;
         echo $this->twig->render($this->template, $this->context);
     }
