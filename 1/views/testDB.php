@@ -29,9 +29,22 @@ class QuerySave {
         $stmt->bindValue(":title", "Asdasda");
         $stmt->bindValue(":value", "dasdasdas");
         $stmt->execute();
+class QueryGetAll {
+
+    private $connection;
+
+    public function __construct() {
+        $this->connection = new PDO("sqlite:database.db");
+    }
+
+    public function getAll(): array {
         $sql = 'SELECT title, value FROM myTable';
-        $stmt = $connection->query($sql);
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->connection->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_CLASS, "MyTable");
+    }
+
+}
+
         $this->context["result"] = $result;
         echo $this->twig->render($this->template, $this->context);
     }
