@@ -89,3 +89,41 @@ class ContextView extends TwigView {
 
     use ContextTrait;
 }
+
+class Validator {
+
+    private $value;
+    private $isValid;
+    private $errors;
+
+    public function __construct($value) {
+        $this->errors = array();
+        $this->isValid = true;
+        $this->value = $value;
+    }
+
+    public function isEmpty(string $ErrorMessage) {
+        $this->isValid = $this->isValid & $this->value != "";
+        if (!$this->isValid) {
+            array_push($this->errors, $ErrorMessage);
+        }
+        return $this;
+    }
+
+    public function isNumeric(string $ErrorMessage) {
+        $this->isValid = $this->isValid & is_numeric($this->value);
+        if (!$this->isValid) {
+            array_push($this->errors, $ErrorMessage);
+        }
+        return $this;
+    }
+
+    public function isValid() {
+        return $this->isValid;
+    }
+
+    public function getErrorsMessages() {
+        return $this->errors;
+    }
+
+}

@@ -1,52 +1,11 @@
 <?php
 
 require_once './core/views.php';
-
-class Validator {
-
-    private $value;
-    private $isValid;
-    private $errors;
-
-    public function __construct($value) {
-        $this->errors = array();
-        $this->isValid = true;
-        $this->value = $value;
-    }
-
-    public function isEmpty(string $ErrorMessage) {
-        $this->isValid = $this->isValid & $this->value != "";
-        if (!$this->isValid) {
-            array_push($this->errors, $ErrorMessage);
-        }
-        return $this;
-    }
-
-    public function isNumeric(string $ErrorMessage) {
-        $this->isValid = $this->isValid & is_numeric($this->value);
-        if (!$this->isValid) {
-            array_push($this->errors, $ErrorMessage);
-        }
-        return $this;
-    }
-
-    public function isValid() {
-        return $this->isValid;
-    }
-
-    public function getErrorsMessages() {
-        return $this->errors;
-    }
-
-}
-
 require_once './models/summa.php';
-
-
-require_once './queries/summaViewQueries/save.php';
+require_once './queries/ResultQueries/save.php';
+require_once '././models/result.php';
 
 use summaView\QuerySave;
-use summaView\Result;
 
 class SummaView extends ContextView {
 
@@ -60,11 +19,11 @@ class SummaView extends ContextView {
         $summaForm->setA($_POST["1"]);
         $summaForm->setB($_POST["2"]);
         if ($summaForm->isValid()) {
-            $this->setTemplate("result.html");
             $this->context["result"] = $summaForm->getA() + $summaForm->getB();
             $result = new Result();
             $result->result = (string) $this->context["result"];
             (new QuerySave())->save($result);
+            header('Location: /result ');
         } else {
             $this->context["a"] = $_POST["1"];
             $this->context["b"] = $_POST["2"];
