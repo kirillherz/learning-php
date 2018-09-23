@@ -6,7 +6,7 @@ $array = array();
 spl_autoload_register(function ($class_name) {
     include "./views/" . $class_name . '.php';
 });
-
+require_once './core/views.php';
 include_once "./builders/TwigViewBuilder.php";
 
 array_push($array, array(
