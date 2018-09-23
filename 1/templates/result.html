@@ -6,10 +6,10 @@
     </head>
     <body>
         <div id="content">
-            {% block content %}
-            {{result}}
-            {% endblock %}
+            {% for row in result %}
+            {{row.result}}
             <br/>
+            {% endfor %}
             <a href="/summa/">посчитать еще</a>
         </div>
     </body>
