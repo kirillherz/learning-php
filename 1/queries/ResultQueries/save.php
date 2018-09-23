@@ -4,11 +4,9 @@ namespace summaView;
 
 use PDO;
 
-class Result {
+require_once '././models/result.php';
 
-    public $result;
-
-}
+use Result;
 
 class QuerySave {
 
