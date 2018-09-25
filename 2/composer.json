@@ -1,0 +1,13 @@
+{
+    "name": "vendor/2",
+    "description": "Описание проекта 2.",
+    "authors": [
+        {
+            "name": "Кирилл",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "phemto/phemto": "dev-master"
+    }
+}

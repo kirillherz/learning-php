@@ -1,0 +1,38 @@
+[
+    {
+        "name": "phemto/phemto",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Vektah/phemto.git",
+            "reference": "cd61af2b4747a6eeb082f48b1fc28835daa01056"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Vektah/phemto/zipball/cd61af2b4747a6eeb082f48b1fc28835daa01056",
+            "reference": "cd61af2b4747a6eeb082f48b1fc28835daa01056",
+            "shasum": ""
+        },
+        "require-dev": {
+            "pear-pear.phpdoc.org/phpdocumentor": "*@dev",
+            "phpunit/phpunit": "3.7.10"
+        },
+        "time": "2013-04-10T03:42:23+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "phemto": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Adam Scarr",
+                "email": "adams@benon.com"
+            }
+        ],
+        "description": "Phemto PHP Dependency Injection Framework"
+    }
+]
